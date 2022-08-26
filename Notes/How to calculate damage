@@ -1,0 +1,19 @@
+Two types of damage 
+  - magic 
+  - physical
+  
+Each move does ONE type of damage 
+  
+DAMAGE ALGORITHM
+  
+Generates random amount of damage based on character's (atk + atk_bonus) and moves ( atk_dmg )
+  - range is wider as base damage is higher
+  - atk_pwr = character.atk + character.atk_bonus + move.atk_dmg
+  - range = (atk_pwr - (atk_pwr/5))..(atk_pwr + (atk_pwr/5))
+  - 0-4 = range of 0, 5-9 = range of 1, 10-14 = range of 2, etc.
+  
+Subtracts rand # picked from a range based on defender's defense 
+  - uses same mechanics as attack damage 
+  - dfs_pwr = character.dfs + character.dfs_bonus
+  
+Magic damage calculated similar to physical, but it depends on both character's magic stats
