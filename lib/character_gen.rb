@@ -42,13 +42,18 @@ class Character
         puts "          --~*  #{@name} the #{@cls}  *~--          "
         puts "                        lvl #{lvl}"
         puts " "
-        puts "      hlt     man     atk     dfs     mgc    spd"
-        @stats.each { |stat, value| print value.to_s.rjust(8) unless stat == :acc || stat == :xp }
-        puts " \n\n"
-        puts "   experience: #{@stats[:xp]}"
-        puts "   level up at: 0000000 \n\n"
-        puts "   moveset:"
-        @mvset.each { |move| puts "       #{move}"}
+        puts '          \\\\*~~~~-----------------~~~~*///'
+        puts "                        '''"
+        puts "    | hlt   | man   | atk   | dfs   | mgc   | spd"
+        print "       "
+        @stats.each { |stat, value| print value.to_s.ljust(8) unless stat == :acc || stat == :xp }
+        puts " \n\n\n"
+        puts "-----------------------~~~~*/"
+        puts "    | experience: #{@stats[:xp]}"
+        puts "    | level up at: 0000000 \n\n\n"
+        puts "---------------~~~~*/"
+        puts "    | moveset:\n\n"
+        @mvset.each { |move| puts "       - #{move}"}
         gets.chomp
     end
 
@@ -56,9 +61,27 @@ class Character
         @human_player
     end 
 
+    def lvl_up
+        @lvl += 1
+        @base_stats.each do |stat, value|
+            if stat == :hlt || stat == :man 
+                @stats[stat] += value * 6
+            else
+                @stats[stat] += value 
+            end 
+        end 
+    end 
 end 
 
-unicorn = Character.new('sprinkles', 'unicorn', true)
+unicorn = Character.new('nosferatu', 'vampire', true)
 unicorn.import_cls
 unicorn.calculate_stats
+unicorn.display_stats
+unicorn.lvl_up
+unicorn.display_stats
+unicorn.lvl_up
+unicorn.display_stats
+unicorn.lvl_up
+unicorn.display_stats
+unicorn.lvl_up
 unicorn.display_stats
