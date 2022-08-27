@@ -23,8 +23,8 @@ RSpec.describe Character do
         it 'is a human player or not' do 
             expect(@unicorn.human_player?).to eq(true)
         end
-        it 'starts at level 0' do 
-            expect(@unicorn.lvl).to eq(0)
+        it 'starts at level 1' do 
+            expect(@unicorn.lvl).to eq(1)
         end 
         it 'starts with an empty movset' do
             expect(@unicorn.mvset).to eq([])
@@ -75,4 +75,30 @@ RSpec.describe Character do
             expect(expected).to eq(true)
         end 
     end
+    describe '#lvl_up' do 
+        before(:each) do
+            @unicorn = Character.new('sprinkles', 'unicorn', true)
+            @unicorn.import_cls
+            @unicorn.calculate_stats
+        end
+        it 'increases lvl by one' do
+            @unicorn.lvl_up
+            expect(@unicorn.lvl).to eq(2)
+        end     
+        it 'increases stats by growth rate' do
+            og_atk = @unicorn.stats[:atk]
+            @unicorn.lvl_up
+            expected = (og_atk + 2)
+            expect(@unicorn.stats[:atk]).to eq(expected)
+        end 
+        it 'increases hlt + man by growth rate * 10' do 
+            og_hlt = @unicorn.stats[:hlt]
+            og_man = @unicorn.stats[:man]
+            @unicorn.lvl_up
+            expected1 = og_hlt + (og_hlt/10 * 6)
+            expected2 = og_man + (og_man/10 * 6)
+            expect(@unicorn.stats[:hlt]).to eq(expected1)
+            expect(@unicorn.stats[:man]).to eq(expected2)
+        end 
+    end 
 end 
