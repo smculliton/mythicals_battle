@@ -1,0 +1,12 @@
+cls,name,atk_dmg,special,crit,acc,attacking,phys
+unicorn,sparkle,6,nil,0,100,true,false
+unicorn,hornjab,9,nil,0,80,true,true
+vampire,teeth,5,nil,0,100,true,true
+vampire,hellfire,10,nil,0,65,true,false
+werewolf,bite,5,nil,0,100,true,true
+werewolf,fullmoon,0,full,0,100,false,false
+wizard,incantation,7,nil,0,100,true,false
+wizard,heal,0,heal,0,100,false,false
+hobbit,sneakyswipes,4,multi,0,100,true,true
+hobbit,magicring,0,speed,0,100,false,false
+skeleton,boneclub,4,nil,0,100,true,true
