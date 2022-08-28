@@ -1,5 +1,5 @@
 require 'rspec'
-require '../lib/character_gen'
+require './lib/character_gen'
 require 'pry'
 # require '../lib/classes.csv'
 
@@ -40,10 +40,6 @@ RSpec.describe Character do
         it 'populates base stats' do
             @unicorn.import_cls 
             expect(@unicorn.base_stats).to eq({hlt: 4, man: 2, atk: 2, dfs: 4, mgc: 2, spd: 1})
-        end 
-        it 'imports moveset' do 
-            @unicorn.import_cls
-            expect(@unicorn.mvset).to eq(['sparkle', 'hornjab'])
         end 
     end 
     describe '#calculate_stats' do 
@@ -101,4 +97,32 @@ RSpec.describe Character do
             expect(@unicorn.stats[:man]).to eq(expected2)
         end 
     end 
+    describe '#import mvset' do
+        before(:each) do 
+            @unicorn = Character.new('sprinkles', 'unicorn', true)
+            @unicorn.import_cls
+            @unicorn.import_mvset
+        end 
+        it 'opens moves.csv' do 
+        end 
+        it 'creates move classes for each move' do 
+            expect(@unicorn.mvset[0]).to be_an_instance_of(Move)
+        end 
+        it 'finds the right moves for its class' do 
+            expected = []
+            @unicorn.mvset.each { |move| expected << move.name }
+            expect(expected).to eq(['sparkle','hornjab'])
+        end 
+    end 
+    describe '#learn_move' do 
+        before(:each) do 
+            @unicorn = Character.new('sprinkles', 'unicorn', true)
+            @unicorn.import_cls
+            @unicorn.learn_move("teeth")
+        end
+        it 'adds move to mvset' do 
+            expect(@unicorn.mvset[0]).to be_a Move
+            expect(@unicorn.mvset[0].name).to eq("teeth")
+        end 
+    end
 end 

@@ -1,8 +1,11 @@
 require 'csv'
 require 'pry'
+require './lib/moves_gen'
+require './modules/move_data_converter'
 
 class Character
     attr_reader :name, :cls, :lvl, :human_player, :base_stats, :stats, :mvset
+    include DataConverter
 
     def initialize(name, cls, human_player) 
         @name = name 
@@ -19,11 +22,30 @@ class Character
         cls_stats = file.find { |row| row[:cls] == @cls }
         cls_stats.each do |stat, value|
             next if stat == :cls
-            return @mvset = cls_stats[stat].split(' ') if stat == :mvset 
             @base_stats[stat] = value.to_i
             # binding.pry
         end
     end
+
+    def import_mvset
+        file = CSV.open("files/moves.csv", headers: true, header_converters: :symbol)
+        moves = file.select { |row| row[:cls] == @cls }
+        moves.each { |move| learn_move(move[:name]) }    
+    end 
+
+    def learn_move(move)
+        file = CSV.open("files/moves.csv", headers: true, header_converters: :symbol)
+        move_args = {}
+        move_data = file.find { |row| row[:name] == move }
+        move_data.each do |info, value|
+            next if info == :cls
+            if info == :attacking || info == :phys || info == :special
+                value = data_converter(value)
+            end 
+            move_args[info] = value 
+        end 
+        mvset << Move.new(move_args)
+    end 
 
     def calculate_stats
         @base_stats.each do |stat, value|
@@ -53,7 +75,7 @@ class Character
         puts "    | level up at: 0000000 \n\n\n"
         puts "---------------~~~~*/"
         puts "    | moveset:\n\n"
-        @mvset.each { |move| puts "       - #{move}"}
+        @mvset.each { |move| puts "       - #{move.name}"}
         gets.chomp
     end
 
@@ -73,15 +95,14 @@ class Character
     end 
 end 
 
-unicorn = Character.new('nosferatu', 'vampire', true)
-unicorn.import_cls
-unicorn.calculate_stats
-unicorn.display_stats
-unicorn.lvl_up
-unicorn.display_stats
-unicorn.lvl_up
-unicorn.display_stats
-unicorn.lvl_up
-unicorn.display_stats
-unicorn.lvl_up
-unicorn.display_stats
+# unicorn = Character.new('nosferatu', 'vampire', true)
+# unicorn.import_cls
+# unicorn.import_mvset
+# unicorn.calculate_stats
+# unicorn.lvl_up
+# unicorn.lvl_up
+# unicorn.lvl_up
+# unicorn.lvl_up
+# unicorn.display_stats
+# unicorn.learn_move("sparkle")
+# unicorn.display_stats
