@@ -113,6 +113,9 @@ RSpec.describe Character do
             @unicorn.mvset.each { |move| expected << move.name }
             expect(expected).to eq(['sparkle','hornjab'])
         end 
+        it 'has the correct data types' do 
+            expect(@unicorn.mvset[0].attacking).to eq(true)
+        end 
     end 
     describe '#learn_move' do 
         before(:each) do 
