@@ -69,28 +69,5 @@ class Battle
   
 end
 
-def pick_characters 
-  characters = [Vampire.new(false), Werewolf.new(false), Unicorn.new(false), Wizard.new(false), Hobbit.new(false)]
-  puts `clear`
-  puts "pick your character:"
-  puts " "
-  characters.each do |char|
-    puts "#{characters.index(char)}: #{char.cls}"
-  end 
-  choice = gets.chomp.to_i
-  char_choice = Vampire.new(true) if choice == 0
-  char_choice = Werewolf.new(true) if choice == 1
-  char_choice = Unicorn.new(true) if choice == 2
-  char_choice = Wizard.new(true) if choice == 3
-  char_choice = Hobbit.new(true) if choice == 4
-  `clear`
-  puts "please name your character:"
-  puts " "
-  char_choice.name = gets.chomp
-  puts "now enter the battle arena!!!"
-  [char_choice, characters[rand(0..3)]]
-end 
-  
-  
 battle = Battle.new(pick_characters)
 #battle = Battle.new([Hobbit.new(true, 'dingo'), Werewolf.new(false, 'dracs')])
